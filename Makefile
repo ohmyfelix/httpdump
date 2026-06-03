@@ -1,6 +1,8 @@
 DOCKER_IMAGE=dockette/httpdump
+DOCKER_TAG?=latest
 
-build: docker-build
+build:
+	docker build --pull -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
 
 test: docker-build
 	docker compose up -d
@@ -13,11 +15,10 @@ test: docker-build
 
 run: test-up
 
-docker-build:
-	docker build --pull -t ${DOCKER_IMAGE} .
+docker-build: build
 
 docker-push:
-	docker push ${DOCKER_IMAGE}
+	docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
 
 test-up:
 	docker compose up
